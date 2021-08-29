@@ -1,3 +1,6 @@
+#include "CRSImg.h"
+
+string& ClearHeadTailSpace(string &str)
 {
 	if (str.empty())
 	{
@@ -10,34 +13,34 @@
 
 void DisplayImage(CRSImage * pRSImg)
 {
-	// ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½
+	// ²ÎÊýÅÐ¶Ï
 	if (pRSImg == NULL)
 		return;
 
 	int		i, j;
 	int		rgb[3], bottomB[3], topB[3];
-	int		Coefficient; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½
-	int		nBands = pRSImg->GetBands();		//ï¿½ï¿½ï¿½ï¿½
-	int		nSamples = pRSImg->GetSamples();	//ï¿½ï¿½
-	int		nLines = pRSImg->GetLines();		//ï¿½ï¿½
-	unsigned char***	pppData = pRSImg->GetDataBuffer();	//ï¿½ï¿½Î¬ï¿½ï¿½ï¿½ï¿½Í·Ö¸ï¿½ï¿½
+	int		Coefficient; //ÇúÏßÀ­ÉìÏµÊý
+	int		nBands = pRSImg->GetBands();		//²¨¶Î
+	int		nSamples = pRSImg->GetSamples();	//ÁÐ
+	int		nLines = pRSImg->GetLines();		//ÐÐ
+	unsigned char***	pppData = pRSImg->GetDataBuffer();	//ÈýÎ¬Êý×éÍ·Ö¸Õë
 	do
 	{
-		cout << "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªrgbÍ¨ï¿½ï¿½ï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½Å£ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½" << nBands << "ï¿½ï¿½ï¿½ï¿½ï¿½Î£ï¿½ï¿½ï¿½" << endl;
+		cout << "ÊäÈë×÷ÎªrgbÍ¨µÀµÄ²¨¶ÎÐòºÅ£¨µ±Ç°¹²ÓÐ" << nBands << "¸ö²¨¶Î£©£º" << endl;
 		cin >> rgb[0] >> rgb[1] >> rgb[2];
 		if (!(rgb[0] >= 0 && rgb[0] <= nBands && rgb[1] >= 0 && rgb[1] <= nBands && rgb[2] >= 0 && rgb[2] <= nBands))
-			cerr << "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½" << endl;
+			cerr << "ÊäÈë´íÎó£¬ÇëÖØÐÂÑ¡Ôñ" << endl;
 	} while (!(rgb[0] >= 0 && rgb[0] <= nBands && rgb[1] >= 0 && rgb[1] <= nBands && rgb[2] >= 0 && rgb[2] <= nBands));
 
 	do
 	{
-		cout << "ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì£¿(0-ï¿½ï¿½ï¿½ï¿½ï¿½ì£¬1-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì£¬2-ï¿½ß¶Ô±È£ï¿½2%ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)" << endl;
+		cout << "ÊÇ·ñ½øÐÐÁÁ¶ÈÇúÏßÀ­Éì£¿(0-²»À­Éì£¬1-ÏßÐÔÀ­Éì£¬2-¸ß¶Ô±È£¨2%£©À­Éì)" << endl;
 		cin >> Coefficient;
 		if (!(Coefficient == 0 || Coefficient == 1 || Coefficient == 2))
-			cerr << "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½" << endl;
+			cerr << "ÊäÈë´íÎó£¬ÇëÖØÐÂÑ¡Ôñ" << endl;
 	} while (!(Coefficient == 0 || Coefficient == 1 || Coefficient == 2));
 	
-	//ï¿½ß¶Ô±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½2%Î»
+	//¸ß¶Ô±ÈÀ­Éì¼ÆËã2%Î»
 	if (Coefficient == 2)
 	{
 		long *Npts, *Total;
@@ -46,17 +49,17 @@ void DisplayImage(CRSImage * pRSImg)
 		float *Acc_Pct;
 		for (int k = 0; k < 3; k++)
 		{
-			Npts = new long[256](); //ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ì¬ï¿½ï¿½ï¿½ï¿½
+			Npts = new long[256](); //³õÊ¼»¯¶¯Ì¬Êý×é
 			Total = new long[256]();
 			Acc_Pct = new float[256]();
 			for (int i = 0; i < nLines; i++)
 				for (int j = 0; j < nSamples; j++)
-					Npts[static_cast<int>(pppData[i][j][rgb[k]])] += 1; //Í³ï¿½ï¿½Ã¿Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+					Npts[static_cast<int>(pppData[i][j][rgb[k]])] += 1; //Í³¼ÆÃ¿Ò»µãµÄÁÁ¶ÈÐÅÏ¢
 			flagB = flagT = 1;
 			for (int i = 0; i < 256; i++)
 			{
 				if (i)
-					Total[i] = (Npts[i] + Total[i - 1]); //ï¿½ï¿½ï¿½ï¿½ï¿½Û¼ï¿½Öµ
+					Total[i] = (Npts[i] + Total[i - 1]); //¼ÆËãÀÛ¼ÆÖµ
 				else
 					Total[i] = Npts[i];
 				Acc_Pct[i] = static_cast<float>(Total[i]) * 100 / Pixels;
@@ -76,32 +79,32 @@ void DisplayImage(CRSImage * pRSImg)
 		}
 	}
 
-	// ï¿½ï¿½ï¿½ï¿½EasyX IMAGEï¿½ï¿½ï¿½ï¿½
+	// ´´½¨EasyX IMAGE¶ÔÏó
 	initgraph(nSamples, nLines);
 	IMAGE	img(nSamples, nLines);
 	DWORD*	pImgBuffer = GetImageBuffer(&img);
 
-	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø£ï¿½ï¿½ï¿½Ê¾Í¼ï¿½ï¿½
+	// ±éÀúÏñËØ£¬ÏÔÊ¾Í¼Ïñ
 	for (i = 0; i < nLines; i++)
 		for (j = 0; j < nSamples; j++)
 			pImgBuffer[i*nSamples + j] = RGB(MapBirghtness(pppData, i, j, rgb[0], Coefficient, bottomB[0], topB[0]), MapBirghtness(pppData, i, j, rgb[1], Coefficient, bottomB[1], topB[1]), MapBirghtness(pppData, i, j, rgb[2], Coefficient, bottomB[2], topB[2]));
 
-	// ï¿½ï¿½ï¿½ï¿½Ó°ï¿½ï¿½
+	// »æÖÆÓ°Ïñ
 	putimage(0, 0, &img);
 
-	// ï¿½È´ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ ESCï¿½ï¿½ï¿½Ë³ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½
+	// µÈ´ýÓÃ»§°´ ESC£¬ÍË³öÏÔÊ¾´°¿Ú
 	while (!_kbhit())
 	{
 		if (_getch() == 27)
 			break;
 	}
 
-	// ï¿½Ø±Õ»ï¿½ï¿½Æ´ï¿½ï¿½ï¿½
+	// ¹Ø±Õ»æÖÆ´°Ìå
 	closegraph();
 }
 
 
-bool CRSImage::ReadMetaData(const char* lpstrMetaFilePath)  //ï¿½ï¿½È¡ï¿½Ä¼ï¿½Ôªï¿½ï¿½ï¿½ï¿½
+bool CRSImage::ReadMetaData(const char* lpstrMetaFilePath)  //¶ÁÈ¡ÎÄ¼þÔªÊý¾Ý
 {
 	ifstream    ifs;		//input file stream
 	string      strLine;
@@ -110,7 +113,7 @@ bool CRSImage::ReadMetaData(const char* lpstrMetaFilePath)  //ï¿½ï¿½È¡ï¿½Ä¼ï¿½Ôª
 
 	char         sBuff[260];
 
-	ifs.open(lpstrMetaFilePath, ios_base::in); //ï¿½ï¿½Ö»ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½Ôªï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
+	ifs.open(lpstrMetaFilePath, ios_base::in); //ÒÔÖ»¶Á·½Ê½´ò¿ªÔªÊý¾ÝÎÄ¼þ
 	if (!ifs.is_open())
 		return false;
 
@@ -155,7 +158,7 @@ bool CRSImage::ReadMetaData(const char* lpstrMetaFilePath)  //ï¿½ï¿½È¡ï¿½Ä¼ï¿½Ôª
 		{
 			getline(ss, m_sFileType, '\n');
 		}
-		else if (strSubTxt == "interleave") //ï¿½Ð¶ï¿½Õ¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		else if (strSubTxt == "interleave") //ÅÐ¶ÏÕ¤¸ñÊý¾ÝÀàÐÍ
 		{
 			ss >> strSubTxt;
 			ClearHeadTailSpace(strSubTxt);
@@ -249,7 +252,7 @@ bool CRSImage::ClearBuffer(unsigned char ***& pppData, int maxRow, int maxCol)
 {
 	if (pppData != nullptr)
 	{
-		//É¾ï¿½ï¿½Ô­m_pppData
+		//É¾³ýÔ­m_pppData
 		for (int i = 0; i < maxRow; i++)
 		{
 			for (int j = 0; j < maxCol; j++)
@@ -264,7 +267,7 @@ bool CRSImage::ClearBuffer(unsigned char ***& pppData, int maxRow, int maxCol)
 		return false;
 }
 
-bool CRSImage::ReadImgData(const char * lpstrImgFilePath) //ï¿½ï¿½È¡Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+bool CRSImage::ReadImgData(const char * lpstrImgFilePath) //¶ÁÈ¡Í¼ÏñÊý¾Ý
 {
 	ifstream ifs;
 
@@ -431,13 +434,13 @@ bool CRSImage::Open(const char* lpstrPath)
 
 	// 1. Read Meta Data
 	string	strMetaFilePath = lpstrPath;
-	int	pos = strMetaFilePath.rfind('.'); //ï¿½ï¿½Î»ï¿½ï¿½×ºï¿½ï¿½ï¿½ï¿½Ê¼Î»
+	int	pos = strMetaFilePath.rfind('.'); //¶¨Î»ºó×ºÃû¿ªÊ¼Î»
 	if (pos >= 0)
 	{
-		strMetaFilePath = strMetaFilePath.substr(0, pos); //ï¿½ï¿½ï¿½ãµ½ï¿½ï¿½×ºï¿½ï¿½ï¿½ï¿½Æ¬
+		strMetaFilePath = strMetaFilePath.substr(0, pos); //´ÓÁãµ½ºó×ºÃûÇÐÆ¬
 	}
-	strMetaFilePath.append(".hdr"); //ï¿½ï¿½ï¿½ï¿½hdrï¿½ï¿½×º
-	if (!ReadMetaData(strMetaFilePath.c_str())) //ï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½È¡Ôªï¿½ï¿½ï¿½ï¿½
+	strMetaFilePath.append(".hdr"); //Ôö¼Óhdrºó×º
+	if (!ReadMetaData(strMetaFilePath.c_str())) //µ÷ÓÃ²¢¶ÁÈ¡ÔªÊý¾Ý
 	{
 		cerr << "Read Meta Data Failed." << endl;
 		return false;
@@ -535,29 +538,29 @@ void CRSImage::ShowHistogram(int band) const
 	long *Npts, *Total;
 	float *Percent, *Acc_Pct;
 	int k = band;
-	Npts = new long[101](); //ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ì¬ï¿½ï¿½ï¿½ï¿½
+	Npts = new long[101](); //³õÊ¼»¯¶¯Ì¬Êý×é
 	Total = new long[101]();
 	Percent = new float[101]();
 	Acc_Pct = new float[101]();
 	for (int i = 0; i < m_nLines; i++)
 		for (int j = 0; j < m_nSamples; j++)
 			if(static_cast<int>(m_pppData[i][j][k])<=100&& static_cast<int>(m_pppData[i][j][k])>0)
-				Npts[static_cast<int>(m_pppData[i][j][k])] += 1; //Í³ï¿½ï¿½Ã¿Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+				Npts[static_cast<int>(m_pppData[i][j][k])] += 1; //Í³¼ÆÃ¿Ò»µãµÄÁÁ¶ÈÐÅÏ¢
 	cout << "Histogram  	   DN	   Npts	  Total	 Percent	 Acc Pct" << endl;
 	for (int i = 0; i < 101; i++)
 	{
 		if (i)
-			Total[i] = (Npts[i] + Total[i - 1]); //ï¿½ï¿½ï¿½ï¿½ï¿½Û¼ï¿½Öµ
+			Total[i] = (Npts[i] + Total[i - 1]); //¼ÆËãÀÛ¼ÆÖµ
 		else
 			Total[i] = Npts[i];
 		Percent[i] = static_cast<float>(Npts[i]) * 100 / Pixels;
 		Acc_Pct[i] = static_cast<float>(Total[i]) * 100 / Pixels;
 		if (i == 0)
-			cout << resetiosflags(ios::right) << setiosflags(ios::left) //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			cout << resetiosflags(ios::right) << setiosflags(ios::left) //ÉèÖÃ×ó¶ÔÆë
 			<< setw(11) << setfill(' ') << m_sBandNames[k] << '\t';
 		else
 			cout << setw(11) << setfill(' ') << '\t';
-		cout << resetiosflags(ios::left) << setiosflags(ios::right) //ï¿½ï¿½ï¿½ï¿½ï¿½Ò¶ï¿½ï¿½ï¿½
+		cout << resetiosflags(ios::left) << setiosflags(ios::right) //ÉèÖÃÓÒ¶ÔÆë
 			<< setw(5) << setfill(' ') << i << '\t'
 			<< setw(7) << Npts[i]
 			<< setw(8) << Total[i] << setiosflags(ios::fixed) << setprecision(4)
@@ -565,12 +568,12 @@ void CRSImage::ShowHistogram(int band) const
 			<< setw(8) << Acc_Pct[i] << endl;
 	}
 
-	//EasyXï¿½ï¿½ï¿½
-	initgraph(540, 340);//ï¿½ï¿½ï¿½ï¿½Í¼ï¿½Î½ï¿½ï¿½ï¿½
-	line(20, 320, 20, 20);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-	line(20, 320, 520, 320);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//EasyXÊä³ö
+	initgraph(540, 340);//´´½¨Í¼ÐÎ½çÃæ
+	line(20, 320, 20, 20);//×Ý×ø±ê
+	line(20, 320, 520, 320);//ºá×ø±ê
 	for (int i = 0; i < 100; i++)
-		solidrectangle(20 + 5 * i, 320 - int(ceil(300 * Percent[i] / 10)), 20 + 5 * i + 5, 320);//Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ³ï¿½Ö±ï¿½ï¿½Í¼
+		solidrectangle(20 + 5 * i, 320 - int(ceil(300 * Percent[i] / 10)), 20 + 5 * i + 5, 320);//Í¨¹ý»­¾ØÐÎÀ´»æÖÆ³öÖ±·½Í¼
 
 	while (!_kbhit())
 	{
@@ -578,7 +581,7 @@ void CRSImage::ShowHistogram(int band) const
 			break;
 	}
 
-	// ï¿½Ø±Õ»ï¿½ï¿½Æ´ï¿½ï¿½ï¿½
+	// ¹Ø±Õ»æÖÆ´°Ìå
 	closegraph();
 
 	delete[] Npts, Total, Percent, Acc_Pct;
@@ -590,7 +593,7 @@ bool CRSImage::ApplyOperation(CRSImage & p)
 	if (m_nLines != p.m_nLines || m_nSamples != p.m_nSamples)
 	{
 		if (this->IsOpen())
-		{	//ï¿½Í·ï¿½
+		{	//ÊÍ·Å
 			for (int i = 0; i < m_nLines; i++)
 			{
 				for (int j = 0; j < m_nSamples; j++)
@@ -601,7 +604,7 @@ bool CRSImage::ApplyOperation(CRSImage & p)
 			m_pppData = nullptr;
 			m_nLines = p.m_nLines;
 			m_nSamples = p.m_nSamples;
-			//ï¿½Â½ï¿½
+			//ÐÂ½¨
 			if (!InitBuffer(m_pppData, m_nLines, m_nSamples, m_nBands))
 				return false;
 		}
@@ -617,14 +620,14 @@ bool CRSImage::SaveToFile(const char * FilePath)
 {
 	ofstream ofs;
 	string	strMetaFilePath = FilePath;
-	int	pos = strMetaFilePath.rfind('.'); //ï¿½ï¿½Î»ï¿½ï¿½×ºï¿½ï¿½ï¿½ï¿½Ê¼Î»
+	int	pos = strMetaFilePath.rfind('.'); //¶¨Î»ºó×ºÃû¿ªÊ¼Î»
 	if (pos >= 0)
 	{
-		strMetaFilePath = strMetaFilePath.substr(0, pos); //ï¿½ï¿½ï¿½ãµ½ï¿½ï¿½×ºï¿½ï¿½ï¿½ï¿½Æ¬
+		strMetaFilePath = strMetaFilePath.substr(0, pos); //´ÓÁãµ½ºó×ºÃûÇÐÆ¬
 	}
-	strMetaFilePath.append(".hdr"); //ï¿½ï¿½ï¿½ï¿½hdrï¿½ï¿½×º
+	strMetaFilePath.append(".hdr"); //Ôö¼Óhdrºó×º
 
-	//Ð´ï¿½ï¿½Í¼ï¿½ï¿½ï¿½Ä¼ï¿½
+	//Ð´ÈëÍ¼ÏñÎÄ¼þ
 	ofs.open(FilePath, ios::binary);
 	if (!ofs)
 	{
@@ -653,14 +656,14 @@ bool CRSImage::SaveToFile(const char * FilePath)
 						ofs.write(reinterpret_cast<char*>(&m_pppData[i][j][k]), sizeof(unsigned char));
 			break;
 		default:
-			cerr << "ï¿½ï¿½Ê½ï¿½ì³£" << endl;
+			cerr << "¸ñÊ½Òì³£" << endl;
 			return false;
 			break;
 		}
 		ofs.close();
 	}
 
-	//Ð´ï¿½ï¿½Ôªï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
+	//Ð´ÈëÔªÊý¾ÝÎÄ¼þ
 	ofs.open(strMetaFilePath.c_str(), ios::out);
 	if (!ofs.is_open())
 	{
@@ -742,7 +745,7 @@ int Image_Operation::GetRGBValue(double row, double col, int band)
 
 int Image_Operation::GetPixelValue(double p[][4], double x, double y)
 {
-	//ï¿½ï¿½ï¿½ï¿½È¨ï¿½ï¿½
+	//¼ÆËãÈ¨ÖØ
 	a00 = p[1][1];
 	a01 = -.5*p[1][0] + .5*p[1][2];
 	a02 = p[1][0] - 2.5*p[1][1] + 2 * p[1][2] - .5*p[1][3];
@@ -774,7 +777,7 @@ int Image_Operation::GetPixelValue(double p[][4], double x, double y)
 
 unsigned char Image_Operation::ReScale(double i, double t, double j, double u, int k)
 {
-	//ï¿½ï¿½ï¿½ï¿½Î§16ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø²ï¿½ï¿½ï¿½
+	//¶ÔÖÜÎ§16¸ñ½øÐÐÖØ²ÉÑù
 	for (int x = 0; x < 4; x++)
 		for (int y = 0; y < 4; y++)
 			tempPixels[x][y] = GetRGBValue(i - 1 + x, j - 1 + y, k);
@@ -800,12 +803,12 @@ void Image_Operation::NewMatrix_Zoom(int startH, int endH, int startW, int endW)
 {
 	for (int row = startH; row < endH; row++)
 	{
-		double srcRow = float(row)*rowRatio; //Ô´Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		double srcRow = float(row)*rowRatio; //Ô´Ä¿±êµãÐÐÊý
 		double i = floor(srcRow);
 		double t = srcRow - i;
 		for (int col = startW; col < endW; col++)
 		{
-			double srcCol = float(col)*colRatio; //Ô´Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			double srcCol = float(col)*colRatio; //Ô´Ä¿±êµãÁÐÊý
 			double j = floor(srcCol);
 			double u = srcCol - j;
 			for (int k = 0; k < m_nBands; k++)
@@ -823,7 +826,7 @@ void Image_Operation::NewMatrix_Rotate(int startH, int endH, int startW, int end
 			srcRow = si * double(col - colOff) + co * double(row - rowOff) + double(int(m_nLines / 2));
 			srcCol = co * double(col - colOff) - si * double(row - rowOff) + double(int(m_nSamples / 2));
 			for (int band = 0; band < m_nBands; band++)
-				if (srcRow >= 0. && srcRow < m_nLines - 0.5 && srcCol >= 0. && srcCol < m_nSamples - 0.5) //ï¿½ï¿½Ö¤Ô­ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½Í¼ï¿½ï¿½Î§ï¿½ï¿½
+				if (srcRow >= 0. && srcRow < m_nLines - 0.5 && srcCol >= 0. && srcCol < m_nSamples - 0.5) //±£Ö¤Ô­ÏñËØµãÔÚÍ¼Ïñ·¶Î§ÄÚ
 					outputImg[row][col][band] = ReScale(floor(srcRow), srcRow - floor(srcRow), floor(srcCol), srcCol - floor(srcCol), band);
 		}
 	}
@@ -839,13 +842,13 @@ void Image_Operation::NewMatrix_Fliter(int startH, int endH, int startW, int end
 
 void Image_Operation::Zoom(int destWidth, int destHeight)
 {
-	//ï¿½ï¿½ï¿½ï¿½ï¿½Â¾ï¿½ï¿½ï¿½
+	//´´½¨ÐÂ¾ØÕó
 	InitBuffer(outputImg, destHeight, destWidth, m_nBands);
 	rowRatio = float(m_nLines) / float(destHeight);
 	colRatio = float(m_nSamples) / float(destWidth);
-	//ï¿½ï¿½ï¿½ß³Ì·ï¿½Ê½Ó³ï¿½ï¿½ï¿½ï¿½ï¿½
+	//µ¥Ïß³Ì·½Ê½Ó³Éä¾ØÕó
 	//NewMatrix_ReScale(0,destHeight, 0,destWidth); 
-	//Ê¹ï¿½Ã¶ï¿½ï¿½ß³ï¿½Ó³ï¿½ï¿½ï¿½ï¿½ï¿½
+	//Ê¹ÓÃ¶àÏß³ÌÓ³Éä¾ØÕó
 	thread t1(&Image_Operation::NewMatrix_Zoom, *this, 0, destHeight / 2, 0, destWidth / 2);
 	thread t2(&Image_Operation::NewMatrix_Zoom, *this, 0, destHeight / 2, destWidth / 2, destWidth);
 	thread t3(&Image_Operation::NewMatrix_Zoom, *this, destHeight / 2, destHeight, 0, destWidth / 2);
@@ -867,15 +870,15 @@ void Image_Operation::Rotate(int degree)
 	angle = degree * 3.1415926 / 180;
 	co = cos(angle);
 	si = sin(angle);
-	int rotateW = static_cast<int>(m_nSamples * fabs(co) + m_nLines * fabs(si)); //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½Ä¸ßºÍ¿ï¿½
+	int rotateW = static_cast<int>(m_nSamples * fabs(co) + m_nLines * fabs(si)); //¼ÆËãÐý×ªºóµÄ¸ßºÍ¿í
 	int rotateH = static_cast<int>(m_nSamples * fabs(si) + m_nLines * fabs(co));
-	colOff = rotateW / 2; //ï¿½ï¿½ï¿½ï¿½Æ«ï¿½ï¿½ï¿½ï¿½
+	colOff = rotateW / 2; //×ø±êÆ«ÒÆÁ¿
 	rowOff = rotateH / 2;
-	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½
+	//Éú³ÉÐÂÍ¼Ïñ¾ØÕó
 	InitBuffer(outputImg, rotateH, rotateW, m_nBands);
-	//ï¿½ï¿½ï¿½ß³ï¿½ï¿½ï¿½ï¿½ï¿½Ó³ï¿½ï¿½
+	//µ¥Ïß³Ì×ø±êÓ³Éä
 	//NewMatrix_Rotate(0, rotateH, 0, rotateW);
-	//ï¿½ï¿½ï¿½ß³ï¿½
+	//¶àÏß³Ì
 	thread t1(&Image_Operation::NewMatrix_Rotate, *this, 0, rotateH / 2, 0, rotateW / 2);
 	thread t2(&Image_Operation::NewMatrix_Rotate, *this, 0, rotateH / 2, rotateW / 2, rotateW);
 	thread t3(&Image_Operation::NewMatrix_Rotate, *this, rotateH / 2, rotateH, 0, rotateW / 2);
@@ -899,8 +902,8 @@ void Image_Operation::Fliter(int Width, int type = 0)
 	for (int i = 0; i < W; i++)
 		fliterMatrix[i] = new double[W];
 	InitBuffer(outputImg, m_nLines, m_nSamples, m_nBands);
-	//ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-	switch (type) {//ï¿½ï¿½È¨ï¿½ï¿½Öµï¿½Ë²ï¿½
+	//¼ÆËãÏµÊý¾ØÕó
+	switch (type) {//¼ÓÈ¨¾ùÖµÂË²¨
 	case 0: {
 		double coefficientSum = 0.0;
 		for (int i = 0; i < W; i++)
@@ -914,7 +917,7 @@ void Image_Operation::Fliter(int Width, int type = 0)
 				fliterMatrix[i][j] = fliterMatrix[i][j] / coefficientSum;
 		break;
 	}
-	case 1: {//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¹ï¿½Ë²ï¿½
+	case 1: {//À­ÆÕÀ­Ë¹ÂË²¨
 		fliterMatrix[0][0] = 0;
 		fliterMatrix[0][1] = -1;
 		fliterMatrix[0][2] = 0;
@@ -927,9 +930,9 @@ void Image_Operation::Fliter(int Width, int type = 0)
 		break;
 	}
 	}
-	//ï¿½ï¿½ï¿½ß³ï¿½
+	//µ¥Ïß³Ì
 	//NewMatrix_Fliter(0, m_nLines, 0, m_nSamples);
-	//ï¿½ï¿½ï¿½ß³ï¿½
+	//¶àÏß³Ì
 	thread t1(&Image_Operation::NewMatrix_Fliter, *this, 0, m_nLines / 2, 0, m_nSamples / 2);
 	thread t2(&Image_Operation::NewMatrix_Fliter, *this, 0, m_nLines / 2, m_nSamples / 2, m_nSamples);
 	thread t3(&Image_Operation::NewMatrix_Fliter, *this, m_nLines / 2, m_nLines, 0, m_nSamples / 2);
@@ -938,7 +941,7 @@ void Image_Operation::Fliter(int Width, int type = 0)
 	t2.join();
 	t3.join();
 	t4.join();
-	//ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
+	//Çå³ýÁÙÊ±¾ØÕó
 	for (int i = 0; i < W; i++)
 		delete[] fliterMatrix[i];
 	delete[] fliterMatrix;
